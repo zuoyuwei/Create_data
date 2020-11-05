@@ -161,7 +161,7 @@ def dict_shapes(points,label,fill_color=None,line_color=None):
 # json.dump(data,open(json_file,'w'))
 
 if __name__ == '__main__':
-    base_path = 'F:/laibo/data_hua_711_tu/img'
+    base_path = r'F:\laibo\data_hua_711_tu\wait__process'
     files_path = glob.glob(base_path+'/*.txt')
 
     print('Total txt file number:',len(files_path))
@@ -172,9 +172,9 @@ if __name__ == '__main__':
 
     for file_path in files_path:
         imagePath = file_path[:-4]+'.jpg'
-        print('start read txt file:',file_path)
+        # print('start read txt file:',file_path)
         shapes = []
-        print('start generate json....')
+        # print('start generate json....')
         with open(file_path,'r') as f:
             lines = f.readlines()
             # points = []
@@ -190,6 +190,11 @@ if __name__ == '__main__':
                 points.append([int(x4), int(y4)])
                 label = result
                 shapes.append(dict_shapes(points,label))
+
+        # image = cv2.imread(filename=imagePath, flags=0)
+        # cv2.imshow('test1', image)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
         with open(imagePath, 'rb') as jpg_file:
             byte_content = jpg_file.read()
