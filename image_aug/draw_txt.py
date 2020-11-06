@@ -47,7 +47,7 @@ def pil_line(myFilePathPic_r, myFilePathDraw_r, my_str_ocr):
         image.save(myFilePathDraw_r)
 
 if __name__ == '__main__':
-    image_path = 'hua_711_001_pil.jpg'
-    txt_path = image_path.replace('_pil.jpg', '_rot90.txt')
-    image_draw_path = 'hua_711_001_pil_draw.jpg'
+    image_path = 'hua_711_001_rot90.jpg'
+    txt_path = image_path.replace('_rot90.jpg', '_rot90.txt')
+    image_draw_path = 'hua_711_001_rot90_draw.jpg'
     pil_line(image_path, image_draw_path, txt_path)

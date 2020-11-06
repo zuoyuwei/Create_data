@@ -4,6 +4,7 @@
 
 import cv2
 import math
+import glob
 import numpy as np
 from PIL import Image
 
@@ -68,21 +69,23 @@ def random_rotation(image, raw_polygons, angle=90):
     return im_rotate, total_landmarks
 
 if __name__ == '__main__':
-    image_path = 'hua_711_001.jpg'
-    raw_txt_path = image_path.replace('.jpg', '.txt')
-    output_txt_path = image_path.replace('.jpg', '_rot90.txt')
-    image_array = np.array(cv2.imread(image_path, cv2.COLOR_BGR2RGB))
-    with open(raw_txt_path, 'r') as f:
-        raw_polygons = f.readlines()
-    image_rotate, total_landmarks = random_rotation(image=image_array, raw_polygons=raw_polygons)
-    cv2.imwrite(image_path.replace('.jpg', '_rot90.jpg'), image_rotate)
-    with open(output_txt_path, 'w') as f_w:
-        for index, rot_landmark in enumerate(total_landmarks):
-            # print('rot_landmark:', len(rot_landmark))
-            str_rot_landmark = [str(rot_landmark[i]) for i in range(len(rot_landmark))]
-            str_rot_landmark = ','.join(str_rot_landmark)
-            # print('str_rot_landmark:', str_rot_landmark)
-            f_w.write(str_rot_landmark)
-            if index == (len(total_landmarks) - 1):
-                continue
-            f_w.write('\n')
+    base_path = 'F:/laibo/data_hua_711_tu/test_img'
+    image_paths = glob.glob(base_path + '/*.jpg')
+    for image_path in image_paths:
+        raw_txt_path = image_path.replace('.jpg', '.txt')
+        output_txt_path = image_path.replace('.jpg', '_rot90.txt')
+        image_array = np.array(cv2.imread(image_path, cv2.COLOR_BGR2RGB))
+        with open(raw_txt_path, 'r') as f:
+            raw_polygons = f.readlines()
+        image_rotate, total_landmarks = random_rotation(image=image_array, raw_polygons=raw_polygons)
+        cv2.imwrite(image_path.replace('.jpg', '_rot90.jpg'), image_rotate)
+        with open(output_txt_path, 'w') as f_w:
+            for index, rot_landmark in enumerate(total_landmarks):
+                # print('rot_landmark:', len(rot_landmark))
+                str_rot_landmark = [str(rot_landmark[i]) for i in range(len(rot_landmark))]
+                str_rot_landmark = ','.join(str_rot_landmark)
+                # print('str_rot_landmark:', str_rot_landmark)
+                f_w.write(str_rot_landmark)
+                if index == (len(total_landmarks) - 1):
+                    continue
+                f_w.write('\n')
