@@ -43,12 +43,11 @@ def check_and_validate_polys(polys):
     return np.array(validated_polys)
 
 if __name__ == '__main__':
-    base_path = r'F:\laibo\data_hua_711_tu\img_标注_tlwang_2020.10.26_001'
+    base_path = r'./raw_data/'
     json_paths = glob.glob(base_path + '/*.json')
     for json_path in json_paths:
         # ext = json_path.split('.')[-1].replace('txt')
-        txt_path = json_path[:-5] + '.txt'
-        print('txt_path:', txt_path)
+        txt_path = json_path[:-5] + '_json.txt'
         with open(json_path, 'r') as f_json:
             content = json.load(f_json)
         with open(txt_path, 'w') as f_txt:
@@ -64,19 +63,6 @@ if __name__ == '__main__':
                 y3 = validate_poly[2][1]
                 x4 = validate_poly[3][0]
                 y4 = validate_poly[3][1]
-                f_txt.write(str(x1))
-                f_txt.write(',')
-                f_txt.write(str(y1))
-                f_txt.write(',')
-                f_txt.write(str(x2))
-                f_txt.write(',')
-                f_txt.write(str(y2))
-                f_txt.write(',')
-                f_txt.write(str(x3))
-                f_txt.write(',')
-                f_txt.write(str(y3))
-                f_txt.write(',')
-                f_txt.write(str(x4))
-                f_txt.write(',')
-                f_txt.write(str(y4))
+                f_txt.write(str(x1)+','+str(y1)+','+str(x2)+','+str(y2)+','+
+                            str(x3)+','+str(y3)+','+str(x4)+','+str(y4))
                 f_txt.write('\n')

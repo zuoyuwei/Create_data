@@ -50,19 +50,15 @@ def pil_line(myFilePathPic_r, myFilePathDraw_r, my_str_ocr):
 
 
 if __name__ == '__main__':
-    myDirPath = r'F:/laibo/data_hua_711_tu/img/'
-    # myFilePathPic = myDirPath + r'make_img_tt.jpg'
-    # myFilePathJson = myDirPath + r'make_img_tt.json'
-    # myFilePathDraw = myDirPath + r'make_img_tt_pil.jpg'
+    myDirPath = r'./raw_data/'
+    myFilePathPic = myDirPath + r'hua_711_tt.jpg'
+    myFilePathJson = myDirPath + r'hua_711_tt.json'
+    myFilePathDraw = myDirPath + r'hua_711_tt_pil.jpg'
 
     for num in range(0, 1):
-        print(num+1)
-        # myFilePathPic_r = myFilePathPic.replace("tt", str(num))[:]
-        # myFilePathJson_r = myFilePathJson.replace("tt", str(num))[:]
-        # myFilePathDraw_r = myFilePathDraw.replace("tt", str(num))[:]
-        myFilePathPic_r = myDirPath + r'hua_711_180.jpg'
-        myFilePathJson_r = myDirPath + r'hua_711_180.json'
-        myFilePathDraw_r = myDirPath + r'hua_711_180_pil.jpg'
+        myFilePathPic_r = myFilePathPic.replace("tt", str(num+1).rjust(3, '0'))[:]
+        myFilePathJson_r = myFilePathJson.replace("tt", str(num+1).rjust(3, '0'))[:]
+        myFilePathDraw_r = myFilePathDraw.replace("tt", str(num+1).rjust(3, '0'))[:]
 
         '''
         读取json
@@ -71,10 +67,6 @@ if __name__ == '__main__':
         my_str_ocr = json.load(my_jsonfile)
 
         # my_dict_ocr = json.loads(my_str_ocr)
-
-        print(myFilePathPic_r)
-        print(myFilePathDraw_r)
-        # print(my_dict_ocr)
 
         pil_line(myFilePathPic_r, myFilePathDraw_r, my_str_ocr)
 

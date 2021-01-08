@@ -10,7 +10,7 @@ from PIL import Image
 
 # box为0~1的值，为[ymin, xmin, ymax, xmax]
 # landmarks为0~1的值，为多个[y0,x0,y1,x1,y2,x2......yn,xn]
-def random_rotation(image, raw_polygons, angle=90):
+def random_rotation(image, raw_polygons, angle):
     # 为随机旋转的角度-90~90度
     angle = angle
     theta = angle * (math.pi / 180.0)
@@ -50,9 +50,23 @@ def random_rotation(image, raw_polygons, angle=90):
         landmarks = np.reshape(landmarks, [4, 2])
         # print('center:', center)
         for i in range(len(landmarks)):
-            temp = landmarks[i][0]
-            landmarks[i][0] = landmarks[i][1]
-            landmarks[i][1] = image_width - temp
+            if angle == 90:
+                temp = landmarks[i][0]
+                landmarks[i][0] = landmarks[i][1]
+                landmarks[i][1] = image_width - temp
+
+            elif angle == 180:
+                landmarks[i][0] = image_width - landmarks[i][0]
+                landmarks[i][1] = image_height - landmarks[i][1]
+
+            elif angle == 270:
+                temp = landmarks[i][0]
+                landmarks[i][0] = image_height - landmarks[i][1]
+                landmarks[i][1] = temp
+
+            else:
+                break
+
         # landmarks = np.matmul(landmarks - center, rotation_matrix) + center
         # print('landmarks:', landmarks)
         landmarks = [landmarks[0][0], landmarks[0][1], landmarks[1][0], landmarks[1][1], landmarks[2][0], landmarks[2][1], landmarks[3][0], landmarks[3][1]]
@@ -64,21 +78,21 @@ def random_rotation(image, raw_polygons, angle=90):
     # 旋转图像
     image = Image.fromarray(image)
     # im_rotate = image.rotate(angle)
-    im_rotate = image.transpose(Image.ROTATE_90)
+    im_rotate = image.transpose(Image.ROTATE_270)
     im_rotate = np.array(im_rotate)
     return im_rotate, total_landmarks
 
 if __name__ == '__main__':
-    base_path = 'F:/laibo/data_hua_711_tu/test_img'
+    base_path = 'F:/laibo/data_hua_711_tu/train_img_and_txt'
     image_paths = glob.glob(base_path + '/*.jpg')
     for image_path in image_paths:
         raw_txt_path = image_path.replace('.jpg', '.txt')
-        output_txt_path = image_path.replace('.jpg', '_rot90.txt')
+        output_txt_path = image_path.replace('.jpg', '_rot270.txt')
         image_array = np.array(cv2.imread(image_path, cv2.COLOR_BGR2RGB))
         with open(raw_txt_path, 'r') as f:
             raw_polygons = f.readlines()
-        image_rotate, total_landmarks = random_rotation(image=image_array, raw_polygons=raw_polygons)
-        cv2.imwrite(image_path.replace('.jpg', '_rot90.jpg'), image_rotate)
+        image_rotate, total_landmarks = random_rotation(image=image_array, raw_polygons=raw_polygons, angle=90)
+        cv2.imwrite(image_path.replace('.jpg', '_rot270.jpg'), image_rotate)
         with open(output_txt_path, 'w') as f_w:
             for index, rot_landmark in enumerate(total_landmarks):
                 # print('rot_landmark:', len(rot_landmark))

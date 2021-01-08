@@ -161,7 +161,7 @@ def dict_shapes(points,label,fill_color=None,line_color=None):
 # json.dump(data,open(json_file,'w'))
 
 if __name__ == '__main__':
-    base_path = r'F:\laibo\data_hua_711_tu\wait__process'
+    base_path = r'./raw_data/'
     files_path = glob.glob(base_path+'/*.txt')
 
     print('Total txt file number:',len(files_path))

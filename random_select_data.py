@@ -1,29 +1,21 @@
+# 随机从文件路径中选取一部分数据，存在另一文件路径中
 import os
 import glob
 import shutil
 import random
-import numpy as np
 
 if __name__ == '__main__':
-    base_path = 'F:/laibo/data_hua_711_tu/train_img/'
-    image_path = glob.glob(base_path + '*.jpg')
-    out_image_path = base_path.replace('train_img', 'test_img')
-    out_txt_path = base_path.replace('train_img', 'test_txt')
+    raw_path = './raw_data/'
+    out_path = './sample_data/'
+    raw_image_path = glob.glob(raw_path + '*.jpg')
+    raw_image_path = [os.path.basename(image_path) for image_path in raw_image_path]
 
-    # image_path = random.shuffle(image_path)
-    # print('imagea_path:', image_path)
-    test_image_path = random.sample(image_path, 50)
-    # print('test_image_path:', type(test_image_path))
+    sample_image_path = random.sample(raw_image_path, 1)
 
-    if not os.path.exists(out_image_path):
-        os.mkdir(out_image_path)
+    if not os.path.exists(out_path):
+        os.mkdir(out_path)
 
-    if not os.path.exists(out_txt_path):
-        os.mkdir(out_txt_path)
-
-    for test_image in test_image_path:
-        # print(len(test_image))
-        test_txt = test_image.replace('train_img', 'train_txt').replace('.jpg', '.txt')
-        # print('test_txt:', test_txt)
-        shutil.move(test_image, test_image.replace('train_img', 'test_img'))
-        shutil.move(test_txt, test_txt.replace('train_txt', 'test_txt'))
+    for in_image in sample_image_path:
+        in_txt = in_image[:-3] + 'txt'
+        shutil.move(raw_path + in_image, out_path + in_image)
+        shutil.move(raw_path + in_txt, out_path + in_txt)
